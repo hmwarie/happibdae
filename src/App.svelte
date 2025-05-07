@@ -10,10 +10,20 @@
     '/mom-message': MomMessage,
     '/sister-message': SisterMessage
   };
+
+  // Configure router with base URL
+  const baseUrl = '/happibdae';
+  
+  // Handle 404s
+  const handleRoute = (location) => {
+    if (!routes[location.pathname]) {
+      window.location.href = baseUrl + '/';
+    }
+  };
 </script>
 
 <div class="app">
-  <Router {routes} />
+  <Router {routes} base={baseUrl} on:route={handleRoute} />
 </div>
 
 <style>

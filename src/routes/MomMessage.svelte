@@ -4,47 +4,14 @@
   import { link } from 'svelte-spa-router';
   import confetti from 'canvas-confetti';
 
-  let photos = [];
-
-  const galleryPhotos = [
-    { id: 1, placeholder: "Add Photo 1", defaultImage: "/images/mom1.jpg" },
-    { id: 2, placeholder: "Add Photo 2", defaultImage: "/images/mom2.jpg" },
-    { id: 3, placeholder: "Add Photo 3", defaultImage: "/images/mom3.jpg" },
-    { id: 4, placeholder: "Add Photo 4", defaultImage: "/images/mom4.jpg" }
+  const photos = [
+    { src: "/happibdae/images/mother1.jpeg" },
+    { src: "/happibdae/images/mother2.jpeg" },
+    { src: "/happibdae/images/mother3.jpeg" },
+    { src: "/happibdae/images/mother4.jpeg" }
   ];
 
-  function handleFileInput(event, photoId) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const existingPhotoIndex = photos.findIndex(p => p.id === photoId);
-        if (existingPhotoIndex !== -1) {
-          photos[existingPhotoIndex] = {
-            ...photos[existingPhotoIndex],
-            src: e.target.result
-          };
-        } else {
-          photos = [...photos, {
-            id: photoId,
-            src: e.target.result
-          }];
-        }
-        photos = photos;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   onMount(() => {
-    // Load default images
-    galleryPhotos.forEach(photo => {
-      photos = [...photos, {
-        id: photo.id,
-        src: photo.defaultImage
-      }];
-    });
-
     // Trigger confetti animation
     const duration = 3 * 1000;
     const animationEnd = Date.now() + duration;
@@ -113,44 +80,42 @@
     <div class="content-section">
       <div class="message text-center space-y-4 md:space-y-6 mb-8">
         <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
-          May this day be as special as you are! Here's to another year of amazing memories, 
-          endless laughter, and beautiful moments. You bring so much joy to everyone around you, 
-          and today we celebrate the wonderful person you are.
+          Mommy, I want you to know how much your love and guidance have shaped me. 
+          From teaching me how to be strong and independent, to showing me how to care for my siblings - 
+          you've been my role model in every way. Your sacrifices and dedication have taught me what it 
+          means to be a loving daughter and sister.
         </p>
         
         <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
-          Wishing you all the happiness your heart can hold, all the smiles a day can bring, 
-          and all the blessings a life can unfold.
+          I want to give back all the love and care you've given me. For every sleepless night you spent 
+          worrying about us, for every dream you put aside for our future, for every tear you wiped away - 
+          I will be there for you. I know I don't always show my care, and I'm sorry for being stubborn at times, 
+          but I promise to do my best to graduate as soon as possible so I can help you. Your strength and love 
+          have been my greatest gift, and I hope to make you as proud of me as I am to be your daughter.
+        </p>
+
+        <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
+          As your eldest daughter, I've watched you work tirelessly to provide for us, always putting our needs 
+          before your own. You've taught me the value of hard work, the importance of family, and the power of 
+          unconditional love. Even when times were tough, you never let us feel the weight of your struggles.
+        </p>
+
+        <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
+          I want you to know that every sacrifice you've made, every tear 
+          you've shed, and every dream you've put on hold has not gone unnoticed. I may not always express it, 
+          but your love and dedication inspire me every day to be better, to work harder, and to make you proud. 
+          Thank you for being the amazing mother that you are. I love you so much, Mommy.
         </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
-        {#each galleryPhotos as photo}
-          <div 
-            class="photo-placeholder group relative bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl p-4 aspect-square flex items-center justify-center text-gray-500 transform hover:scale-105 transition-all duration-300 cursor-pointer shadow-md overflow-hidden"
-            role="button"
-            tabindex="0"
-            aria-label="Photo placeholder - click to upload"
-          >
-            <input 
-              type="file" 
-              id="photo-upload-{photo.id}" 
-              accept="image/*" 
-              class="hidden" 
-              on:change={(e) => handleFileInput(e, photo.id)}
+        {#each photos as photo}
+          <div class="photo-container relative rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center">
+            <img 
+              src={photo.src} 
+              alt="Mother photos" 
+              class="w-full h-full object-contain"
             />
-            <label 
-              for="photo-upload-{photo.id}"
-              class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
-            >
-              <div class="absolute inset-0 bg-gradient-to-br from-pink-200/20 to-purple-200/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div class="relative z-10 flex flex-col items-center">
-                <svg class="w-10 h-10 md:w-12 md:h-12 mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="text-sm md:text-base font-medium">{photo.placeholder}</span>
-              </div>
-            </label>
           </div>
         {/each}
       </div>
@@ -164,8 +129,8 @@
       </div>
 
       <p class="signature text-center text-gray-500 italic mb-6">
-        With love and best wishes ❤️
-      </p>
+        Sincerely, Claire ❤️
+       </p>
 
       <a 
         href="/"
@@ -190,42 +155,6 @@
     position: absolute;
     border-radius: 4px;
     will-change: transform;
-  }
-
-  .photo-placeholder {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .photo-placeholder::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      45deg,
-      rgba(255,255,255,0) 0%,
-      rgba(255,255,255,0.8) 50%,
-      rgba(255,255,255,0) 100%
-    );
-    transform: rotate(45deg);
-    animation: shine 3s infinite;
-  }
-
-  .photo-placeholder:hover::before {
-    animation: shine 1.5s infinite;
-  }
-
-  @keyframes shine {
-    0% {
-      transform: translateX(-100%) rotate(45deg);
-    }
-    100% {
-      transform: translateX(100%) rotate(45deg);
-    }
   }
 
   /* Custom scrollbar for the card */
